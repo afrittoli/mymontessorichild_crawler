@@ -14,4 +14,4 @@ Usage::
 
     ./get_images [TYPE] [WIDTH]
     
-Available types: observations, porfolio, class\n"
+Available types: observations, porfolio, class
