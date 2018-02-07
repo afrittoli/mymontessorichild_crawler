@@ -1,9 +1,10 @@
 # mymontessorychild crawler
 
-Simple bash script to crawl images out of the pre-school web-site.
+Simple bash script to crawl images out of the pre-school childer 
+observations web-site. It builds a simple HTML portfolio of observations.
 
 This doesn't use any stable API, it's reverse engineered from the web
-site HTML to it may break at any time.
+site HTML so it may break at any time.
 
 Dependencies:
 * security: MacOS cli to access keychains. Used to grab the username
