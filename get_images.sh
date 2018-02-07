@@ -67,19 +67,19 @@ function get_image_if_new {
 }
 
 # Get all square images
-sed -n 's/^.*class="square".*alt="\([0-9]*\)".*$/\1/p' $TARGET_BASE.html | while read aa; do
+sed -n 's/^.*class="square".*alt="\([0-9]*\)".*$/\1/p' $OUTPUT/$TARGET_BASE.html | while read aa; do
     aa_IMAGE_URL="${IMAGE_URL}${aa}&w=${SIZE}&h=${SIZE}"
     get_image_if_new "$aa" "$aa_IMAGE_URL"
 done
 
 # Get all portrait images
-sed -n 's/^.*class="portrait".*alt="\([0-9]*\)".*$/\1/p' $TARGET_BASE.html | while read aa; do
+sed -n 's/^.*class="portrait".*alt="\([0-9]*\)".*$/\1/p' $OUTPUT/$TARGET_BASE.html | while read aa; do
     aa_IMAGE_URL="${IMAGE_URL}${aa}&h=${SIZE}&w=${RESIZE_WIDE_SIZE}"
     get_image_if_new "$aa" "$aa_IMAGE_URL"
 done
 
 # Get all landscape images
-sed -n 's/^.*class="landscape".*alt="\([0-9]*\)".*$/\1/p' $TARGET_BASE.html | while read aa; do
+sed -n 's/^.*class="landscape".*alt="\([0-9]*\)".*$/\1/p' $OUTPUT/$TARGET_BASE.html | while read aa; do
     aa_IMAGE_URL="${IMAGE_URL}${aa}&h=${RESIZE_WIDE_SIZE}&w=${SIZE}"
     get_image_if_new "$aa" "$aa_IMAGE_URL"
 done
