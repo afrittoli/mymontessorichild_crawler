@@ -45,7 +45,7 @@ RESIZE_WIDE_SIZE=$(( SIZE * STD_WIDE_SIZE / STD_SIZE ))
 sed -e 's/__MAX_WIDTH__/'$SIZE'/g' header.html_fragment > /tmp/header.html_fragment
 
 if [ ! -d $IMAGE_BASE ]; then
-    mkdir $IMAGE_BASE
+    mkdir -p $OUTPUT/$IMAGE_BASE
 fi
 
 # Get the main content page and build the full page
