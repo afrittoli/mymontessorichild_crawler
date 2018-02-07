@@ -10,11 +10,22 @@ Dependencies:
   and password from the login keychain
 * curl, wget, tidy
 
-Usage::
+Security Note:
+
+Username and password are taken for security from the logic keychain.
+Depending on local setting running the script may prompt for a password
+to unlock the keychain.
+
+Usage:
 
     ./get_images [TYPE] [WIDTH]
     
-Available types: observations, porfolio, class
+Available types: observations, porfolio, class.
+Width in number of pixels.
+
+Example:
+
+    ./get_images observations 1200
 
 Output:
 * html file: $(date +%Y%m%d)\_montessory\_${TYPE}\_${SIZE}
