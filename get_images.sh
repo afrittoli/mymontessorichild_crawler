@@ -55,8 +55,8 @@ cat /tmp/header.html_fragment /tmp/_${TYPE}.html footer.html_fragment | tidy -q 
 log_nice "HTML page in $OUTPUT/$TARGET_BASE.html"
 
 function get_image_if_new {
-  _img = $1
-  _img_url = $2
+  _img="$1"
+  _img_url="$2"
   if [ ! -f $TARGET_BASE/${_img}.jpg ]; then
       eval $WGET '${_img_url}' -O$OUTPUT/$IMAGE_BASE/${_img}.jpg &> /dev/null
       log_nice "New image $OUTPUT/$IMAGE_BASE/${_img}.jpg"

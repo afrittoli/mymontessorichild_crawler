@@ -103,3 +103,4 @@ ENV/
 # Project specific
 images_*
 *.html
+logs
