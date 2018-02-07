@@ -37,7 +37,7 @@ log_nice "Got a PHP Session ID: $COOKIE_PHPSESSID"
 # Setup variables
 FULL_URL=$MONTESSORI_URL'/data.php?mode=history&data='$TYPE
 IMAGE_URL=$MONTESSORI_URL'/image.php?diary='
-WGET="wget --header 'Cookie: PHPSESSID=$COOKIE_PHPSESSID'"
+WGET="/usr/local/bin/wget --header 'Cookie: PHPSESSID=$COOKIE_PHPSESSID'"
 TARGET_BASE="$(date +%Y%m%d)_montessori_${TYPE}_${SIZE}"
 IMAGE_BASE="images_${SIZE}"
 STD_SIZE=180
@@ -61,7 +61,6 @@ function get_image_if_new {
   _img="$1"
   _img_url="$2"
   if [ ! -f $TARGET_BASE/${_img}.jpg ]; then
-      log_nice "$WGET '${_img_url}' -O$OUTPUT/$IMAGE_BASE/${_img}.jpg"
       eval $WGET '${_img_url}' -O$OUTPUT/$IMAGE_BASE/${_img}.jpg &> /dev/null
       log_nice "New image $OUTPUT/$IMAGE_BASE/${_img}.jpg"
   fi
