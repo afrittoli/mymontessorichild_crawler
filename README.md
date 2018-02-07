@@ -1,4 +1,4 @@
-# mymontessorychild crawler
+# mymontessorichild crawler
 
 Simple bash script to crawl images out of the pre-school childer 
 observations web-site. It builds a simple HTML portfolio of observations.
@@ -29,5 +29,5 @@ Example:
     ./get_images observations 1200 /Users/me/mycloudstorage
 
 Output:
-* html file: $OUTPUT\_FOLDER/$(date +%Y%m%d)\_montessory\_${TYPE}\_${SIZE}
+* html file: $OUTPUT\_FOLDER/$(date +%Y%m%d)\_montessori\_${TYPE}\_${SIZE}
 * image folder: $OUTPUT\_FOLDER/images\_${SIZE}
