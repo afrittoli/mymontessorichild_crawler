@@ -15,6 +15,9 @@ function log_nice {
   echo "$(date +%Y%m%d) [$TYPE][$SIZE] $*"
 }
 
+if [ ! -d $OUTPUT ]; then
+    mkdir $OUTPUT
+fi
 log_nice "Generating content in $OUTPUT"
 
 # Get a Session Cookie
@@ -44,8 +47,8 @@ RESIZE_WIDE_SIZE=$(( SIZE * STD_WIDE_SIZE / STD_SIZE ))
 # Initial setup: create the header fragment, ensure the image folder exists
 sed -e 's/__MAX_WIDTH__/'$SIZE'/g' header.html_fragment > /tmp/header.html_fragment
 
-if [ ! -d $IMAGE_BASE ]; then
-    mkdir -p $OUTPUT/$IMAGE_BASE
+if [ ! -d $OUTPUT/$IMAGE_BASE ]; then
+    mkdir $OUTPUT/$IMAGE_BASE
 fi
 
 # Get the main content page and build the full page
@@ -58,6 +61,7 @@ function get_image_if_new {
   _img="$1"
   _img_url="$2"
   if [ ! -f $TARGET_BASE/${_img}.jpg ]; then
+      log_nice "$WGET '${_img_url}' -O$OUTPUT/$IMAGE_BASE/${_img}.jpg"
       eval $WGET '${_img_url}' -O$OUTPUT/$IMAGE_BASE/${_img}.jpg &> /dev/null
       log_nice "New image $OUTPUT/$IMAGE_BASE/${_img}.jpg"
   fi
