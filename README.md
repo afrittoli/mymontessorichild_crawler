@@ -18,15 +18,15 @@ to unlock the keychain.
 
 Usage:
 
-    ./get_images [TYPE] [WIDTH]
+    ./get_images [TYPE] [WIDTH] [OUTPUT_FOLDER]
     
 Available types: observations, porfolio, class.
 Width in number of pixels.
 
 Example:
 
-    ./get_images observations 1200
+    ./get_images observations 1200 /Users/me/mycloudstorage
 
 Output:
-* html file: $(date +%Y%m%d)\_montessory\_${TYPE}\_${SIZE}
-* image folder: images\_${SIZE}
+* html file: $OUTPUT\_FOLDER/$(date +%Y%m%d)\_montessory\_${TYPE}\_${SIZE}
+* image folder: $OUTPUT\_FOLDER/images\_${SIZE}
