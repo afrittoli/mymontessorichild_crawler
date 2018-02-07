@@ -2,9 +2,10 @@
 
 TYPE=${1:-observations}
 SIZE=${2:-800}
+OUTPUT=${3:-.}
 
 if [ "$1" == "help" ]; then
-    echo -e "\nUsage: ./get_images [TYPE] [WIDTH]"
+    echo -e "\nUsage: ./get_images [TYPE] [WIDTH] [OUTPUT]"
     echo -e "\nAvailable types: observations, porfolio, class\n"
     exit 0
 fi
@@ -35,13 +36,13 @@ fi
 
 # Get the main content page and build the full page
 eval $WGET '$FULL_URL' -O- 2>/dev/null | sed -e "s/ type=\"activity\"//g" -e "s/image.php?diary=\([0-9]*\)\"/$IMAGE_BASE\/\1.jpg\" alt=\"\1\"/g" > /tmp/_${TYPE}.html
-cat /tmp/header.html_fragment /tmp/_${TYPE}.html footer.html_fragment | tidy -q -w 500 > $TARGET_BASE.html
+cat /tmp/header.html_fragment /tmp/_${TYPE}.html footer.html_fragment | tidy -q -w 500 > $OUTPUT/$TARGET_BASE.html
 
 # Get all square images
 sed -n 's/^.*class="square".*alt="\([0-9]*\)".*$/\1/p' $TARGET_BASE.html | while read aa; do
     aa_IMAGE_URL="${IMAGE_URL}${aa}&w=${SIZE}&h=${SIZE}"
     if [ ! -f $TARGET_BASE/${aa}.jpg ]; then
-        eval $WGET '$aa_IMAGE_URL' -O$IMAGE_BASE/${aa}.jpg &> /dev/null
+        eval $WGET '$aa_IMAGE_URL' -O$OUTPUT/$IMAGE_BASE/${aa}.jpg &> /dev/null
     fi
 done
 
@@ -49,7 +50,7 @@ done
 sed -n 's/^.*class="portrait".*alt="\([0-9]*\)".*$/\1/p' $TARGET_BASE.html | while read aa; do
     aa_IMAGE_URL="${IMAGE_URL}${aa}&h=${SIZE}&w=${RESIZE_WIDE_SIZE}"
     if [ ! -f $TARGET_BASE/${aa}.jpg ]; then
-        eval $WGET '$aa_IMAGE_URL' -O$IMAGE_BASE/${aa}.jpg &> /dev/null
+        eval $WGET '$aa_IMAGE_URL' -O$OUTPUT/$IMAGE_BASE/${aa}.jpg &> /dev/null
     fi
 done
 
@@ -57,6 +58,6 @@ done
 sed -n 's/^.*class="landscape".*alt="\([0-9]*\)".*$/\1/p' $TARGET_BASE.html | while read aa; do
     aa_IMAGE_URL="${IMAGE_URL}${aa}&h=${RESIZE_WIDE_SIZE}&w=${SIZE}"
     if [ ! -f $TARGET_BASE/${aa}.jpg ]; then
-        eval $WGET '$aa_IMAGE_URL' -O$IMAGE_BASE/${aa}.jpg &> /dev/null
+        eval $WGET '$aa_IMAGE_URL' -O$OUTPUT/$IMAGE_BASE/${aa}.jpg &> /dev/null
     fi
 done
