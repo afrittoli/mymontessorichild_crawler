@@ -15,3 +15,7 @@ Usage::
     ./get_images [TYPE] [WIDTH]
     
 Available types: observations, porfolio, class
+
+Output:
+* html file: $(date +%Y%m%d)\_montessory\_${TYPE}\_${SIZE}
+* image folder: images\_${SIZE}
