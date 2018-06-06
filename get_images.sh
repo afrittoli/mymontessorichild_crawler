@@ -25,19 +25,25 @@ MONTESSORI_DOMAIN=www.mymontessorichild.com
 MONTESSORI_URL=https://${MONTESSORI_DOMAIN}/parents
 MONTESSORI_USER=$(security find-internet-password -s $MONTESSORI_DOMAIN | sed -n 's/^.*"acct"<blob>="\(.*\)"$/\1/p')
 MONTESSORI_PASSWORD=$(security find-internet-password -g -s $MONTESSORI_DOMAIN -w)
-COOKIE_PHPSESSID=$(curl -s --include Set-Cookie ${MONTESSORI_URL}/index.php?action=login --data "un=${MONTESSORI_USER}" --data "pw=${MONTESSORI_PASSWORD}" | sed -n 's/^.*PHPSESSID=\(.*\); e.*$/\1/p' | tail -1)
+IFS_BACKUP=$IFS;
+IFS=$'
+'
+COOKIES=($(curl -s --include Set-Cookie ${MONTESSORI_URL}/index.php?action=login --data "un=${MONTESSORI_USER}" --data "pw=${MONTESSORI_PASSWORD}" | egrep '^Set-Cookie'))
+IFS=$IFS_BACKUP
+COOKIE_1=$(echo ${COOKIES[0]#* } | cut -d';' -f1 | tr -d '\r')
+COOKIE_2=$(echo ${COOKIES[1]#* } | cut -d';' -f1 | tr -d '\r')
 
-if [ -z $COOKIE_PHPSESSID ]; then
+if [[ -z $COOKIE_1 || -z $COOKIE_2 ]]; then
   log_nice "Could not get a session ID" >&2
   exit 2
 fi
 
-log_nice "Got a PHP Session ID: $COOKIE_PHPSESSID"
+log_nice "Got a PHP Session ID: $COOKIE_1; $COOKIE_2"
 
 # Setup variables
 FULL_URL=$MONTESSORI_URL'/data.php?mode=history&data='$TYPE
 IMAGE_URL=$MONTESSORI_URL'/image.php?diary='
-WGET="/usr/local/bin/wget --header 'Cookie: PHPSESSID=$COOKIE_PHPSESSID'"
+WGET="/usr/local/bin/wget --header 'Cookie: ${COOKIE_1}; ${COOKIE_2}'"
 TARGET_BASE="$(date +%Y%m%d)_montessori_${TYPE}_${SIZE}"
 IMAGE_BASE="images_${SIZE}"
 STD_SIZE=180
